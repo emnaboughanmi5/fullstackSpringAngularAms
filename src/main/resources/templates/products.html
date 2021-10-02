@@ -1,0 +1,14 @@
+<html>
+<head>
+</head>
+<body>
+
+<h1 th:align="center">Liste des Produits</h1>
+<h3 th:text="${mesProduits}">produits</h3>
+ <ul>
+ 
+ <li th:each="produit : ${mesProduits}" th:text="${produit}"></li>
+ </ul>
+</body>
+
+</html>

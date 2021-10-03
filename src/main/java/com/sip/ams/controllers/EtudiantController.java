@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,4 +84,29 @@ public class EtudiantController {
 	etudiants.add(e);
   	return "redirect:students";
     }
+    @GetMapping("/delete/{ide}")
+	public String suppression(@PathVariable("ide")int id) // id = ide
+	{
+		System.out.println("id = "+id);
+		// on va supprimer ici
+		Etudiant e = null;
+		e =  recherche(etudiants, id);
+		etudiants.remove(e);
+		//remove ne sera pas effectué lor le parcourt de la liste au mme temps et la rechercehe de thread car les deux thread marche au mme temps 
+		return "redirect:../students";
+	}
+	
+	private Etudiant recherche(List<Etudiant>le, int index)
+	{
+		Etudiant temp=null;
+		for(Etudiant e : le)
+		{
+			if(e.getId()==index)
+			{
+				temp = e;
+				return e;
+			}
+		}
+		return temp;
+	}
 }

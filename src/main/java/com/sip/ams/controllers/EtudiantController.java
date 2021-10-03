@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sip.ams.entities.Etudiant;
 
 @Controller
+
+@RequestMapping("/etudiant")
 public class EtudiantController {
      
 	List<Etudiant> etudiants = new ArrayList<>();

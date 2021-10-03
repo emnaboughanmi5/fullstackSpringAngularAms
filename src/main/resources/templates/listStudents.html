@@ -3,10 +3,13 @@
 <head>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
- </head>
+	<link type="text/css" rel="stylesheet" th:href="@{/css/style.css}">
+</head>
 
 <body>
 	<h1 th:align="center">Liste des Etudiants</h1>
+ 	<h3>Pour ajouter un étudiant cliquer <a th:href="@{/etudiant/add}">ici</a></h3>
+ 
 	<div class="container">
 		<table class="table table-striped" align="center" border="1">
 			<thead class="thead-dark">
@@ -14,15 +17,21 @@
 					<th>Etudiant ID</th>
 					<th>Name</th>
 					<th>Email</th>
-					<th>Spring detect tout seul l'existence de get et set pour private attribut</th>
+					<!--					<th>Spring detect tout seul l'existence de get et set pour private attribut</th>
+-->
+
+					<th>Modifier</th>
+					<th>Supprimer</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="etudiant : ${students}">
+				<tr th:each="etudiant : ${students}" align="center">
 					<td th:text="${etudiant.id}"></td>
 					<td th:text="${etudiant.nom}"></td>
 					<td th:text="${etudiant.email}"></td>
-					<td th:text="${etudiant.getEmail()}"></td>
+					<!--	<td th:text="${etudiant.getEmail()}"></td>-->
+					<td><a href="#" class="btn btn-warning">Modifier</td>
+					<td><a href="#" class="btn btn-danger">Supprimer</td>
 
 				</tr>
 			</tbody>

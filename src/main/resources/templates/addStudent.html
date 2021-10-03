@@ -7,15 +7,35 @@
 </head>
 
 <body>
-	 <div class="form-group">
+	<div class="form-group">
 
 		<h1 th:align="center">Ajouter Étudiant</h1>
 		<form action="add" method="POST">
-			<label>ID : </label><input type="number" name="id" />
-			<label>NOM : </label><input type="text" name="nom" />
-			<label>EMAIL : </label><input type="text" name="email"/>
-			<input class="btn btn-success" type="submit" value="Ajouter" />
+			<div class="form-group">
+				<div class="row">
+					<div class="col-6" align="right"> <label>ID : </label>
+					</div>
+					<div class="col-6"> <input type="number" name="id" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6" align="right"> <label>NOM : </label>
+					</div>
+					<div class="col-6"> <input type="text" name="nom" /></div>
+				</div>
+				<div class="row">
+					<div class="col-6" align="right"> <label>EMAIL : </label>
+					</div>
+					<div class="col-6"> <input type="text" name="email" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-6"></div>
+					<div class="col-6"> <input class="btn btn-success" type="submit" value="Ajouter" />
 
+					</div>
+				</div>
+			</div>
 		</form>
 	</div>
 </body>

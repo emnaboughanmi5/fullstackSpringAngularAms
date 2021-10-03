@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,13 +19,14 @@ import com.sip.ams.entities.Etudiant;
 
 @RequestMapping("/etudiant")
 public class EtudiantController {
-     
-	List<Etudiant> etudiants = new ArrayList<>();
-	{
+
+    List<Etudiant> etudiants = new ArrayList<>();
+    {
 	etudiants.add(new Etudiant(1, "emna", "emna@gmail.com"));
 	etudiants.add(new Etudiant(2, "beki", "beki@gmail.com"));
 	etudiants.add(new Etudiant(3, "amine", "amine@gmail.com"));
     }
+
     @RequestMapping("/home") // request pour invoquer (exécutter la méthode ci-dessous)
     public String message(Model model) {
 	System.out.println("BIENVENUE AU BOOTCAMP");
@@ -57,56 +59,116 @@ public class EtudiantController {
     @RequestMapping("/students") // le path ecrit dans url
     public ModelAndView listStudents() {
 	ModelAndView mv = new ModelAndView();
-	 
+
 	mv.addObject("students", etudiants);
 	mv.setViewName("listStudents");// le nom du fichier html
 	return mv;
 
     }
 
-   // @GetMapping("/add")
-   // ou bien 
-    @RequestMapping(value="/add",method=RequestMethod.GET)
+    // @GetMapping("/add")
+    // ou bien
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
     public ModelAndView addStudentForm() {
 	ModelAndView mv = new ModelAndView();
 	mv.setViewName("addStudent");
 	return mv;
     }
-    
-    @RequestMapping(value="/add",method=RequestMethod.POST)
-    public String addStudent(
-	    @RequestParam("id") int id,
-	    @RequestParam("nom") String nom, 
-	    @RequestParam("email") String email
-	    ) 
-    {
-	Etudiant e=new Etudiant(id,nom,email);
+
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public String addStudent(@RequestParam("id") int id, @RequestParam("nom") String nom,
+	    @RequestParam("email") String email) {
+	Etudiant e = new Etudiant(id, nom, email);
 	etudiants.add(e);
-  	return "redirect:students";
+	return "redirect:students";
     }
+
     @GetMapping("/delete/{ide}")
-	public String suppression(@PathVariable("ide")int id) // id = ide
+    public String suppression(@PathVariable("ide") int id) // id = ide
+    {
+	System.out.println("id = " + id);
+	// on va supprimer ici
+	Etudiant e = null;
+	e = recherche(etudiants, id);
+	etudiants.remove(e);
+	// remove ne sera pas effectué lor le parcourt de la liste au mme temps et la
+	// rechercehe de thread car les deux thread marche au mme temps
+	return "redirect:../students";
+    }
+
+    private Etudiant recherche(List<Etudiant> le, int index) {
+	Etudiant temp = null;
+	for (Etudiant e : le) {
+	    if (e.getId() == index) {
+		temp = e;
+		return e;
+	    }
+	}
+	return temp;
+    }
+    
+    /*
+     * @GetMapping("/update/{ide}") public ModelAndView
+     * getUpdateForm(@PathVariable("ide")int id) // id = ide {
+     * System.out.println("id = "+id);
+     * 
+     * Etudiant e = null; e = recherche(etudiants, id);
+     * 
+     * ModelAndView mv = new ModelAndView(); mv.addObject("etudiant", e);
+     * mv.setViewName("updateStudent"); return mv; }
+     * 
+     * @PostMapping("/update") public String updateEtudiant(Etudiant etudiant) // id
+     * = ide { System.out.println("ok"); int index = rechercheIndex(etudiants,
+     * etudiant); etudiants.set(index, etudiant); return "redirect:students"; }
+     * 
+     * private int rechercheIndex(List<Etudiant> le, Etudiant e) { int compteur =
+     * -1; for(Etudiant temp : le) { compteur++; if(temp.getId()==e.getId()) {
+     * return compteur; }
+     * 
+     * } return compteur; }
+     * 
+     * 
+     * 
+     */
+    @GetMapping("/update/{ide}")
+	public ModelAndView getUpdateForm(@PathVariable("ide")int id) // id = ide
 	{
 		System.out.println("id = "+id);
 		// on va supprimer ici
 		Etudiant e = null;
 		e =  recherche(etudiants, id);
-		etudiants.remove(e);
-		//remove ne sera pas effectué lor le parcourt de la liste au mme temps et la rechercehe de thread car les deux thread marche au mme temps 
-		return "redirect:../students";
+		 
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("etudiant", e);
+		mv.setViewName("updateStudent");
+		return mv;
 	}
 	
-	private Etudiant recherche(List<Etudiant>le, int index)
+	
+	@PostMapping("/update")
+	public String updateEtudiant(Etudiant etudiant) // id = ide
 	{
-		Etudiant temp=null;
-		for(Etudiant e : le)
+		 
+		int index = rechercheIndex(etudiants, etudiant);
+		etudiants.set(index, etudiant);
+		return "redirect:students";
+	}
+	
+	
+	 
+	
+	private int rechercheIndex(List<Etudiant> le, Etudiant e)
+	{
+		int compteur = -1;
+		for(Etudiant temp : le)
 		{
-			if(e.getId()==index)
+			compteur++;
+			if(temp.getId()==e.getId())
 			{
-				temp = e;
-				return e;
+				return compteur;
 			}
+			
 		}
-		return temp;
+		return compteur;
 	}
 }

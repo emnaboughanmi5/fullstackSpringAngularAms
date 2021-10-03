@@ -30,7 +30,9 @@
 					<td th:text="${etudiant.nom}"></td>
 					<td th:text="${etudiant.email}"></td>
 					<!--	<td th:text="${etudiant.getEmail()}"></td>-->
-					<td><a th:href="@{/etudiant/update/{ide}(ide=${etudiant.id})}" class="btn btn-warning">Modifier</td>
+					<td><a th:href="@{/etudiant/update/{ide}/(ide=${etudiant.id})}" class="btn btn-warning">Modifier</a>
+					</td>
+
 					<td><a th:href="@{/etudiant/delete/{ide}(ide=${etudiant.id})}" class="btn btn-danger">Supprimer</td>
 
 				</tr>
